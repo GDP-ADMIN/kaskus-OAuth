@@ -1,6 +1,34 @@
 <?php
 namespace JoakimKejser\OAuth;
 
-class RequestToken extends Token
+/**
+ * Class AccessToken.
+ */
+class RequestToken implements TokenInterface
 {
+	/**
+	 * @var
+	 */
+	protected $key;
+
+	/**
+	 * @var
+	 */
+	protected $secret;
+
+	/**
+	 * @return string
+	 */
+	public function getKey()
+	{
+		return $this->key;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSecret()
+	{
+		return $this->secret;
+	}
 }
