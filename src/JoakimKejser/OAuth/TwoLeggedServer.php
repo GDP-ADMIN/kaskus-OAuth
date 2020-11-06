@@ -3,31 +3,63 @@ namespace JoakimKejser\OAuth;
 
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
+/**
+ * Class TwoLeggedServer.
+ */
 class TwoLeggedServer extends Server
 {
+	/**
+	 * @var OauthRequest
+	 */
+	public $request;
 
-    public $request;
+	/**
+	 * @var ConsumerStoreInterface
+	 */
+	protected $consumerStore;
 
-    protected $consumerStore;
-    protected $nonceStore;
+	/**
+	 * @var NonceStoreInterface
+	 */
+	protected $nonceStore;
 
+	public function __construct(
+		OauthRequest $request,
+		ConsumerStoreInterface $consumerStore,
+		NonceStoreInterface $nonceStore
+	) {
+		$this->consumerStore = $consumerStore;
+		$this->nonceStore = $nonceStore;
+		$this->request = $request;
+	}
 
-    public function __construct(Request $request, ConsumerStore $consumerStore, NonceStore $nonceStore)
-    {
-        $this->consumerStore = $consumerStore;
+	/**
+	 * @param SymfonyRequest         $symfonyRequest
+	 * @param ConsumerStoreInterface $consumerStore
+	 * @param NonceStoreInterface    $nonceStore
+	 *
+	 * @return TwoLeggedServer
+	 */
+	public static function createFromRequest(
+		SymfonyRequest $symfonyRequest,
+		ConsumerStoreInterface $consumerStore,
+		NonceStoreInterface $nonceStore
+	) {
+		$twoLeggedServer = new TwoLeggedServer(OauthRequest::createFromRequest($symfonyRequest), $consumerStore, $nonceStore);
 
-        $this->nonceStore = $nonceStore;
+		return $twoLeggedServer;
+	}
 
-        $this->request = $request;
-    }
+	/**
+	 * @param ConsumerStoreInterface $consumerStore
+	 * @param NonceStoreInterface    $nonceStore
+	 *
+	 * @return TwoLeggedServer
+	 */
+	public static function createFromGlobals(ConsumerStoreInterface $consumerStore, NonceStoreInterface $nonceStore)
+	{
+		$twoLeggedServer = new TwoLeggedServer(OauthRequest::createFromGlobals(), $consumerStore, $nonceStore);
 
-    public static function createFromRequest(SymfonyRequest $symfonyRequest, ConsumerStore $consumerStore, NonceStore $nonceStore)
-    {
-        return new TwoLeggedServer(Request::createFromRequest($symfonyRequest), $consumerStore, $nonceStore);
-    }
-
-    public static function createFromGlobals(ConsumerStore $consumerStore, NonceStore $nonceStore)
-    {
-        return new TwoLeggedServer(Request::createFromGlobals(), $consumerStore, $nonceStore);
-    }
+		return $twoLeggedServer;
+	}
 }

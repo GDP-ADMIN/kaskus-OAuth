@@ -6,7 +6,7 @@ http://oauth.googlecode.com/svn/code/php/
 
 ##2-Legged OAuth Server Example
 ```php
-$request = JoakimKejser\OAuth\Request::createFromGlobals();
+$request = JoakimKejser\OAuth\OauthRequest::createFromGlobals();
 
 // Simple Example ConsumerStore using arrays
 $consumerStore = new JoakimKejser\OAuth\ConsumerStore\ArrayConsumerStore(array('key' => 'secret', 'key2' => 'secret2'));
@@ -43,7 +43,7 @@ $method = "POST";
 $api_endpoint = 'http://apiyouwanna/call';
 
 //Create and sign the request - 2-Legged so token is null
-$req = Request::createFromConsumerAndToken($consumer, $method, $api_endpoint, null);
+$req = OauthRequest::createFromConsumerAndToken($consumer, $method, $api_endpoint, null);
 $req->sign($sigMethod, $consumer, null); //Token is still null
 
 $ch = curl_init();
