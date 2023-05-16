@@ -1,7 +1,7 @@
 <?php
 namespace JoakimKejser\OAuth;
 
-use JoakimKejser\OAuth\Exeption\SignatureMethodMissingException;
+use JoakimKejser\OAuth\Exception\SignatureMethodMissingException;
 
 /**
  * Class Server.
