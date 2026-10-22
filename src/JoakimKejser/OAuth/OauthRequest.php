@@ -281,10 +281,10 @@ class OauthRequest
 		$path = (isset($parts['path'])) ? $parts['path'] : '';
 
 		if (('https' == $scheme and '443' != $port) or ('http' == $scheme and '80' != $port)) {
-			$host = "${host}:${port}";
+			$host = "{$host}:{$port}";
 		}
 
-		return "${scheme}://${host}${path}";
+		return "{$scheme}://{$host}{$path}";
 	}
 
 	/**
